@@ -69,6 +69,19 @@ test.describe('Lab', () => {
   });
 });
 
+test.describe('Field Notes', () => {
+  test('listing shows first field note', async ({ page }) => {
+    await page.goto('/field-notes/');
+    await expect(page.getByText('From Code Editor to Agent Orchestrator')).toBeVisible();
+  });
+
+  test('detail page renders content and external links', async ({ page }) => {
+    await page.goto('/field-notes/from-code-editor-to-agent-orchestrator/');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('From Code Editor to Agent Orchestrator');
+    await expect(page.getByRole('link', { name: 'Superset' }).first()).toHaveAttribute('target', '_blank');
+  });
+});
+
 test.describe('Footer', () => {
   test('has linkedin, github, source, and rss links', async ({ page }) => {
     await page.goto('/');
