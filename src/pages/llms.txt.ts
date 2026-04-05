@@ -6,7 +6,9 @@ export async function GET(context: APIContext) {
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-  const labArtifacts = await getCollection("lab");
+  const labProjects = (await getCollection("lab"))
+    .filter((project) => !project.data.draft)
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
   const lines: string[] = [
     "# Xavier Rutayisire",
@@ -14,7 +16,7 @@ export async function GET(context: APIContext) {
     "> A staff engineer's notes on AI in production",
     "",
     "Personal site of Xavier Rutayisire — staff software engineer building products with AI at Prismic.",
-    "This site contains field notes (blog posts about staff engineering and AI) and a lab (open-source tools).",
+    "This site contains field notes (blog posts about staff engineering and AI) and a lab (open-source projects and experiments).",
     `For full site content in a single file, see [llms-full.txt](${new URL("/llms-full.txt", context.site)}).`,
     "",
     "## About",
@@ -37,9 +39,9 @@ export async function GET(context: APIContext) {
 
   lines.push("", "## Lab", "");
 
-  for (const artifact of labArtifacts) {
+  for (const project of labProjects) {
     lines.push(
-      `- [${artifact.data.name}](${new URL(`/lab/${artifact.id}/`, context.site)}): ${artifact.data.description}`,
+      `- [${project.data.title}](${new URL(`/lab/${project.id}/`, context.site)}): ${project.data.summary}`,
     );
   }
 

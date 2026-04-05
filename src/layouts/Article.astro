@@ -24,34 +24,26 @@ const articleJsonLd = date
       description,
       datePublished: date.toISOString(),
       url: canonicalURL.href,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL.href },
       author: {
         '@type': 'Person',
         name: 'Xavier Rutayisire',
+        url: 'https://xrutayisire.dev',
       },
       ...(tags && tags.length > 0 ? { keywords: tags.join(', ') } : {}),
+      ...(repoUrl
+        ? { about: { '@type': 'SoftwareSourceCode', name: title, codeRepository: repoUrl } }
+        : {}),
     })
-  : repoUrl
-    ? JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'SoftwareSourceCode',
-        name: title,
-        description,
-        url: canonicalURL.href,
-        codeRepository: repoUrl,
-        author: {
-          '@type': 'Person',
-          name: 'Xavier Rutayisire',
-        },
-      })
-    : null;
+  : null;
 ---
 
-<Base title={`${title} — Xavier Rutayisire`} description={description} publishedDate={date}>
+<Base title={`${title} — Xavier Rutayisire`} description={description} publishedDate={date} tags={tags}>
   {articleJsonLd && <script type="application/ld+json" is:inline set:html={articleJsonLd} />}
   <article>
     <header class="mb-8">
       <h1 class="font-sans text-page-title max-md:text-2xl font-semibold text-text-primary leading-tight">{title}</h1>
-      {(date || tags) && (
+      {(date || tags || repoUrl) && (
         <div class="mt-3 flex items-center gap-3 flex-wrap font-mono text-meta text-text-muted">
           {date && <time datetime={formatDate(date)}>{formatDate(date)}</time>}
           {tags && tags.length > 0 && (
@@ -62,11 +54,33 @@ const articleJsonLd = date
               ))}
             </>
           )}
+          {repoUrl && (
+            <>
+              {(date || (tags && tags.length > 0)) && <span aria-hidden="true">/</span>}
+              <a href={repoUrl} class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </>
+          )}
         </div>
       )}
     </header>
     <div class="prose">
       <slot />
     </div>
+    {repoUrl && (
+      <a
+        href={repoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group relative mt-12 block bg-bg-secondary border border-border rounded-card p-6 transition-colors duration-150 hover:border-accent overflow-hidden"
+      >
+        <div class="absolute top-0 left-0 right-0 h-0.5 bg-accent" aria-hidden="true"></div>
+        <p class="font-mono text-sm text-text-secondary">
+          <span class="text-accent">$</span> git clone {repoUrl}.git
+        </p>
+        <p class="mt-3 font-mono text-sm text-accent transition-opacity duration-150 group-hover:underline">
+          Explore on GitHub &rarr;
+        </p>
+      </a>
+    )}
   </article>
 </Base>

@@ -62,10 +62,10 @@ test.describe('Lab', () => {
     await expect(page.getByText('react-js-cron')).toBeVisible();
   });
 
-  test('detail page renders readme', async ({ page }) => {
+  test('detail page renders content and github link', async ({ page }) => {
     await page.goto('/lab/react-js-cron/');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('react-js-cron');
-    await expect(page.getByText('View on GitHub')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'GitHub', exact: true })).toBeVisible();
   });
 });
 

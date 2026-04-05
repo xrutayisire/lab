@@ -1,47 +1,21 @@
 ---
-import { getCollection } from 'astro:content';
-import { Marked } from 'marked';
-import DOMPurify from 'isomorphic-dompurify';
+import { getCollection, render } from 'astro:content';
 import Article from '../../layouts/Article.astro';
 
 export async function getStaticPaths() {
-  const artifacts = await getCollection('lab');
-  return artifacts.map((artifact) => ({
-    params: { slug: artifact.id },
-    props: { artifact },
-  }));
+  const projects = await getCollection('lab');
+  return projects
+    .filter((project) => !project.data.draft)
+    .map((project) => ({
+      params: { slug: project.id },
+      props: { project },
+    }));
 }
 
-const { artifact } = Astro.props;
-const repoSlug = new URL(artifact.data.url).pathname.slice(1);
-
-const markedInstance = new Marked({
-  walkTokens(token) {
-    if ('href' in token && typeof token.href === 'string') {
-      const href = token.href;
-      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:')) {
-        const clean = href.replace(/^\.\//, '');
-        if (token.type === 'image') {
-          token.href = `https://raw.githubusercontent.com/${repoSlug}/master/${clean}`;
-        } else {
-          token.href = `https://github.com/${repoSlug}/blob/master/${clean}`;
-        }
-      }
-    }
-  },
-});
-
-const rawHtml = artifact.body ? await markedInstance.parse(artifact.body) : '';
-const readmeHtml = DOMPurify.sanitize(rawHtml);
+const { project } = Astro.props;
+const { Content } = await render(project);
 ---
 
-<Article title={artifact.data.name} description={artifact.data.description} repoUrl={artifact.data.url}>
-  <div class="not-prose mb-8 flex items-center gap-4 font-mono text-meta text-text-muted">
-    {artifact.data.stars > 0 && <span>{artifact.data.stars} stars</span>}
-    <span>Updated {artifact.data.lastUpdated}</span>
-    <a href={artifact.data.url} class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">
-      View on GitHub
-    </a>
-  </div>
-  <Fragment set:html={readmeHtml} />
+<Article title={project.data.title} date={project.data.date} tags={project.data.tags} description={project.data.summary} repoUrl={project.data.github}>
+  <Content />
 </Article>
