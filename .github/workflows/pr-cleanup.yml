@@ -5,12 +5,33 @@ on:
     types: [closed]
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: Delete preview Worker
-        run: npx wrangler delete --name "xrutayisire-pr-${{ github.event.pull_request.number }}" --force
+      - name: Delete Pages preview deployments
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deployment list --project-name=xrutayisire --json
+      - name: Find and delete branch deployments
+        run: |
+          BRANCH="pr-${{ github.event.pull_request.number }}"
+          DEPLOYMENTS=$(npx wrangler pages deployment list --project-name xrutayisire --json 2>/dev/null || echo "[]")
+          echo "$DEPLOYMENTS" | jq -r --arg branch "$BRANCH" '
+            (if type == "array" then . else .result // [] end)
+            | .[] | select(.deployment_trigger.metadata.branch == $branch) | .id
+          ' | while read -r id; do
+            if [ -n "$id" ]; then
+              echo "Deleting deployment $id"
+              npx wrangler pages deployment delete "$id" --project-name xrutayisire --force
+            fi
+          done
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        continue-on-error: true
