@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://xrutayisire.dev/sitemap-index.xml
+
+# LLM-friendly content
+# https://llmstxt.org
+Llms-Txt: https://xrutayisire.dev/llms.txt

@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import LabCard from '../../components/LabCard.astro';
+import { getCollection } from 'astro:content';
+
+const artifacts = (await getCollection('lab')).sort((a, b) => {
+  if (a.data.status === 'maintained' && b.data.status !== 'maintained') return -1;
+  if (a.data.status !== 'maintained' && b.data.status === 'maintained') return 1;
+  return b.data.lastUpdated.localeCompare(a.data.lastUpdated);
+});
+---
+
+<Base title="Lab — Xavier Rutayisire" description="Open-source tools and experiments by Xavier Rutayisire.">
+  <h1 class="font-sans text-page-title max-md:text-2xl font-semibold text-text-primary mb-8">Lab</h1>
+  {artifacts.length > 0 ? (
+    <div class="grid grid-cols-2 max-md:grid-cols-1 gap-3">
+      {artifacts.map((artifact) => (
+        <LabCard
+          name={artifact.data.name}
+          description={artifact.data.description}
+          status={artifact.data.status}
+          lastUpdated={artifact.data.lastUpdated}
+          topics={artifact.data.topics}
+          slug={artifact.id}
+          headingLevel="h2"
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="text-text-secondary">No lab projects yet. Check back soon.</p>
+  )}
+</Base>

@@ -1,0 +1,72 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  date?: Date;
+  tags?: string[];
+  description?: string;
+  repoUrl?: string;
+}
+
+const { title, date, tags, description = `${title} — by Xavier Rutayisire`, repoUrl } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+function formatDate(d: Date): string {
+  return d.toISOString().split('T')[0];
+}
+
+const articleJsonLd = date
+  ? JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: title,
+      description,
+      datePublished: date.toISOString(),
+      url: canonicalURL.href,
+      author: {
+        '@type': 'Person',
+        name: 'Xavier Rutayisire',
+      },
+      ...(tags && tags.length > 0 ? { keywords: tags.join(', ') } : {}),
+    })
+  : repoUrl
+    ? JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareSourceCode',
+        name: title,
+        description,
+        url: canonicalURL.href,
+        codeRepository: repoUrl,
+        author: {
+          '@type': 'Person',
+          name: 'Xavier Rutayisire',
+        },
+      })
+    : null;
+---
+
+<Base title={`${title} — Xavier Rutayisire`} description={description} publishedDate={date}>
+  {articleJsonLd && <script type="application/ld+json" is:inline set:html={articleJsonLd} />}
+  <article>
+    <header class="mb-8">
+      <h1 class="font-sans text-page-title max-md:text-2xl font-semibold text-text-primary leading-tight">{title}</h1>
+      {(date || tags) && (
+        <div class="mt-3 flex items-center gap-3 flex-wrap font-mono text-meta text-text-muted">
+          {date && <time datetime={formatDate(date)}>{formatDate(date)}</time>}
+          {tags && tags.length > 0 && (
+            <>
+              {date && <span aria-hidden="true">/</span>}
+              {tags.map((tag) => (
+                <span class="uppercase tracking-wide text-badge text-text-muted">{tag}</span>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</Base>

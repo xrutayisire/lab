@@ -1,0 +1,45 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  status: 'maintained' | 'archived';
+  lastUpdated: string;
+  topics: string[];
+  slug: string;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { name, description, status, lastUpdated, topics, slug, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+---
+
+<a
+  href={`/lab/${slug}/`}
+  class="group relative block bg-bg-secondary border border-border rounded-card p-5 transition-colors duration-150 hover:border-accent overflow-hidden"
+>
+  <div class="absolute top-0 left-0 right-0 h-0.5 bg-accent opacity-0 transition-opacity duration-150 group-hover:opacity-100" aria-hidden="true"></div>
+  <div class="flex items-center justify-between gap-3">
+    <Heading class="font-sans text-card-title font-semibold text-text-primary">{name}</Heading>
+    <span
+      class:list={[
+        'font-mono text-badge uppercase tracking-wide px-2 py-0.5 rounded shrink-0',
+        status === 'maintained'
+          ? 'bg-accent/10 text-accent'
+          : 'bg-bg-tertiary text-text-muted',
+      ]}
+    >
+      {status}
+    </span>
+  </div>
+  {description && <p class="mt-2 text-sm text-text-secondary leading-relaxed">{description}</p>}
+  <div class="mt-3 flex items-center justify-between gap-3">
+    <div class="flex gap-2 flex-wrap">
+      {topics.map((topic) => (
+        <span class="font-mono text-badge uppercase tracking-wide text-text-muted">{topic}</span>
+      ))}
+    </div>
+    <time class="font-mono text-xs text-text-muted shrink-0" datetime={lastUpdated}>
+      {lastUpdated}
+    </time>
+  </div>
+</a>
