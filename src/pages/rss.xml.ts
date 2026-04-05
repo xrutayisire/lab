@@ -3,19 +3,32 @@ import type { APIContext } from "astro";
 import { getCollection } from "astro:content";
 
 export async function GET(context: APIContext) {
-  const posts = (await getCollection("field-notes"))
+  const fieldNotes = (await getCollection("field-notes"))
     .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
-  return rss({
-    title: "Xavier Rutayisire — Field Notes",
-    description: "A staff engineer's notes on AI in production",
-    site: context.site!,
-    items: posts.map((post) => ({
+    .map((post) => ({
       title: post.data.title,
       pubDate: post.data.date,
       description: post.data.summary,
       link: `/field-notes/${post.id}/`,
-    })),
+    }));
+
+  const labCaseStudies = (await getCollection("lab"))
+    .filter((post) => !post.data.draft)
+    .map((post) => ({
+      title: post.data.title,
+      pubDate: post.data.date,
+      description: post.data.summary,
+      link: `/lab/${post.id}/`,
+    }));
+
+  const items = [...fieldNotes, ...labCaseStudies].sort(
+    (a, b) => b.pubDate.getTime() - a.pubDate.getTime(),
+  );
+
+  return rss({
+    title: "Xavier Rutayisire",
+    description: "Field notes and open-source case studies from a staff engineer",
+    site: context.site!,
+    items,
   });
 }
