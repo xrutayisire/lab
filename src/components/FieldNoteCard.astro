@@ -3,11 +3,12 @@ interface Props {
   title: string;
   date: string;
   summary: string;
+  tags?: string[];
   slug: string;
   headingLevel?: 'h2' | 'h3';
 }
 
-const { title, date, summary, slug, headingLevel = 'h3' } = Astro.props;
+const { title, date, summary, tags, slug, headingLevel = 'h3' } = Astro.props;
 const Heading = headingLevel;
 ---
 
@@ -24,4 +25,11 @@ const Heading = headingLevel;
     </time>
   </div>
   <p class="mt-1.5 text-sm text-text-secondary leading-relaxed">{summary}</p>
+  {tags && tags.length > 0 && (
+    <div class="mt-2 flex gap-1.5 flex-wrap">
+      {tags.map((tag) => (
+        <span class="font-mono text-badge uppercase tracking-wide bg-accent/10 text-accent px-1.5 py-0.5 rounded">{tag}</span>
+      ))}
+    </div>
+  )}
 </a>

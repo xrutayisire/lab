@@ -17,6 +17,7 @@ const posts = (await getCollection('field-notes'))
           title={post.data.title}
           date={post.data.date.toISOString().split('T')[0]}
           summary={post.data.summary}
+          tags={post.data.tags}
           slug={post.id}
           headingLevel="h2"
         />

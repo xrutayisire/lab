@@ -8,19 +8,17 @@ const allFieldNotes = (await getCollection('field-notes'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const allLabArtifacts = (await getCollection('lab')).sort((a, b) => {
-  if (a.data.status === 'maintained' && b.data.status !== 'maintained') return -1;
-  if (a.data.status !== 'maintained' && b.data.status === 'maintained') return 1;
-  return b.data.lastUpdated.localeCompare(a.data.lastUpdated);
-});
+const allLabProjects = (await getCollection('lab'))
+  .filter((project) => !project.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 const fieldNotes = allFieldNotes.slice(0, 3);
-const labArtifacts = allLabArtifacts.slice(0, 4);
+const labProjects = allLabProjects.slice(0, 4);
 const hasMoreNotes = allFieldNotes.length > 3;
-const hasMoreLab = allLabArtifacts.length > 4;
+const hasMoreLab = allLabProjects.length > 4;
 ---
 
-<Base title="Xavier Rutayisire — Staff Engineer" description="Field notes and open-source tools from a staff engineer working at the intersection of software and AI.">
+<Base title="Xavier Rutayisire — Staff Engineer" description="Field notes, open-source projects, and experiments from a staff engineer working at the intersection of software and AI.">
   <header class="text-center mb-12">
     <h1 class="font-sans text-hero max-md:text-3xl font-bold text-text-primary">Xavier Rutayisire</h1>
     <p class="mt-2 text-lg text-text-secondary">A staff engineer's notes on AI in production</p>
@@ -39,6 +37,7 @@ const hasMoreLab = allLabArtifacts.length > 4;
           title={note.data.title}
           date={note.data.date.toISOString().split('T')[0]}
           summary={note.data.summary}
+          tags={note.data.tags}
           slug={note.id}
         />
       ))}
@@ -58,14 +57,13 @@ const hasMoreLab = allLabArtifacts.length > 4;
       <div class="h-px flex-1 bg-border" aria-hidden="true"></div>
     </div>
     <div class="grid grid-cols-2 max-md:grid-cols-1 gap-3">
-      {labArtifacts.map((artifact) => (
+      {labProjects.map((project) => (
         <LabCard
-          name={artifact.data.name}
-          description={artifact.data.description}
-          status={artifact.data.status}
-          lastUpdated={artifact.data.lastUpdated}
-          topics={artifact.data.topics}
-          slug={artifact.id}
+          title={project.data.title}
+          summary={project.data.summary}
+          date={project.data.date.toISOString().split('T')[0]}
+          tags={project.data.tags}
+          slug={project.id}
         />
       ))}
     </div>
