@@ -1,0 +1,32 @@
+# Build
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.*
+
+# Logs
+*.log
+
+# Testing
+test-results/
+playwright-report/
+.playwright-mcp/
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Conductor
+.context/

@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string;
+  date: string;
+  summary: string;
+  slug: string;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { title, date, summary, slug, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+---
+
+<a
+  href={`/field-notes/${slug}/`}
+  class="group block p-4 rounded-card border border-transparent transition-colors duration-150 hover:bg-bg-secondary hover:border-border"
+>
+  <div class="flex items-baseline justify-between gap-4">
+    <Heading class="font-sans text-base font-medium text-text-primary transition-colors duration-150 group-hover:text-accent">
+      {title}
+    </Heading>
+    <time class="font-mono text-xs text-text-muted shrink-0" datetime={date}>
+      {date}
+    </time>
+  </div>
+  <p class="mt-1.5 text-sm text-text-secondary leading-relaxed">{summary}</p>
+</a>
