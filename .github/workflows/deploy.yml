@@ -27,13 +27,12 @@ jobs:
       - run: npm run format:check
       - run: npm run check
       - run: npm run build
-      - name: Deploy to Cloudflare Pages
-        id: cf-deploy
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist/ --project-name=xrutayisire --branch=main --commit-hash=${{ github.sha }} --commit-message="${{ github.event.head_commit.message }}"
+          command: deploy
 
   e2e:
     needs: deploy
@@ -48,4 +47,4 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test
         env:
-          BASE_URL: https://xrutayisire.pages.dev
+          BASE_URL: https://xrutayisire.dev
