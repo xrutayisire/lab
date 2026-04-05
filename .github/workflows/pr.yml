@@ -56,7 +56,7 @@ jobs:
       - name: Extract preview URL
         id: extract-url
         run: |
-          PREVIEW_URL=$(echo '${{ steps.cf-preview.outputs.command-output }}' | grep -oE 'https://[^ ]*\.workers\.dev' | head -1)
+          PREVIEW_URL=$(echo '${{ steps.cf-preview.outputs.command-output }}' | grep "Version Preview Alias URL:" | grep -oE 'https://[^ ]*\.workers\.dev')
           echo "preview_url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
           echo "Preview URL: $PREVIEW_URL"
 
