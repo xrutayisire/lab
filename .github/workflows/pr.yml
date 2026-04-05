@@ -50,6 +50,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.80.0"
           command: versions upload --preview-alias="pr-${{ github.event.pull_request.number }}" --message="${{ github.event.pull_request.title }}"
 
       - name: Extract preview URL
