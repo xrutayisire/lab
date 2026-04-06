@@ -80,6 +80,7 @@ test.describe('Field Notes', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('From Code Editor to Agent Orchestrator');
     await expect(page.getByRole('link', { name: 'Superset' }).first()).toHaveAttribute('target', '_blank');
   });
+
 });
 
 test.describe('Footer', () => {

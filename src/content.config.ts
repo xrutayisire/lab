@@ -9,6 +9,13 @@ const fieldNotes = defineCollection({
     summary: z.string(),
     tags: z.array(z.string()),
     draft: z.boolean().default(false),
+    banner: z
+      .object({
+        text: z.string(),
+        linkText: z.string().optional(),
+        linkUrl: z.string().url().optional(),
+      })
+      .optional(),
   }),
 });
 

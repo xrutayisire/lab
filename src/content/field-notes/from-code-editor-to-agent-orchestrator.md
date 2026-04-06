@@ -28,6 +28,8 @@ That is when I found [Superset](https://superset.sh/) and [Conductor](https://ww
 
 The only real difference is the interface. [Superset](https://superset.sh/) gives you Claude Code directly in the terminal. [Conductor](https://www.conductor.build/) wraps Claude Code in a visual interface. I tried both, I recommend both. Pick whichever feels more natural to you.
 
+Even Cursor is moving this way. [Cursor 3](https://cursor.com/blog/cursor-3), released just a few days ago, shifted from a code editor to a multi-agent workspace. The direction is clear.
+
 ## What actually changed
 
 The tools matter less than the mindset. In a traditional IDE, the code is at the center and AI helps you write it. In this setup, it is the opposite. AI does the work and I manage it — I decide what to build next, review what is done, and keep things moving.
