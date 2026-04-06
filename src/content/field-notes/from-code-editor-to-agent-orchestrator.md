@@ -4,6 +4,10 @@ date: 2026-04-05
 summary: "From watching AI write code in my editor to running a team of AI coding agents."
 tags: ["ai", "tooling"]
 draft: false
+banner:
+  text: "After writing this, I discovered that Cursor had just released Cursor 3 — a multi-agent workspace built around the same ideas. The industry is converging on this direction."
+  linkText: "Read the announcement"
+  linkUrl: "https://cursor.com/blog/cursor-3"
 ---
 
 For years, my workflow was simple: open an editor, write code, repeat. When AI coding tools showed up, I added them to that same workflow. It took me a while to realize that was the problem.

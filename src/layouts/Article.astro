@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import Banner from '../components/Banner.astro';
 
 interface Props {
   title: string;
@@ -7,9 +8,10 @@ interface Props {
   tags?: string[];
   description?: string;
   repoUrl?: string;
+  banner?: { text: string; linkText?: string; linkUrl?: string };
 }
 
-const { title, date, tags, description = `${title} — by Xavier Rutayisire`, repoUrl } = Astro.props;
+const { title, date, tags, description = `${title} — by Xavier Rutayisire`, repoUrl, banner } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 function formatDate(d: Date): string {
@@ -63,6 +65,7 @@ const articleJsonLd = date
         </div>
       )}
     </header>
+    {banner && <Banner text={banner.text} linkText={banner.linkText} linkUrl={banner.linkUrl} />}
     <div class="prose">
       <slot />
     </div>

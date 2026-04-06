@@ -80,6 +80,14 @@ test.describe('Field Notes', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('From Code Editor to Agent Orchestrator');
     await expect(page.getByRole('link', { name: 'Superset' }).first()).toHaveAttribute('target', '_blank');
   });
+
+  test('detail page shows banner with link', async ({ page }) => {
+    await page.goto('/field-notes/from-code-editor-to-agent-orchestrator/');
+    const banner = page.getByRole('note');
+    await expect(banner).toBeVisible();
+    await expect(banner).toContainText('Cursor 3');
+    await expect(banner.getByRole('link', { name: 'Read the announcement' })).toHaveAttribute('href', 'https://cursor.com/blog/cursor-3');
+  });
 });
 
 test.describe('Footer', () => {
