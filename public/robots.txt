@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: GPTBot
 Allow: /
@@ -15,6 +16,5 @@ Allow: /
 
 Sitemap: https://xrutayisire.dev/sitemap-index.xml
 
-# LLM-friendly content
-# https://llmstxt.org
-Llms-Txt: https://xrutayisire.dev/llms.txt
+# LLM-friendly content: https://xrutayisire.dev/llms.txt
+# Specification: https://llmstxt.org
