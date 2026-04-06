@@ -4,10 +4,6 @@ date: 2026-04-05
 summary: "From watching AI write code in my editor to running a team of AI coding agents."
 tags: ["ai", "tooling"]
 draft: false
-banner:
-  text: "After writing this, I discovered that Cursor had just released Cursor 3 — a multi-agent workspace built around the same ideas. The industry is converging on this direction."
-  linkText: "Read the announcement"
-  linkUrl: "https://cursor.com/blog/cursor-3"
 ---
 
 For years, my workflow was simple: open an editor, write code, repeat. When AI coding tools showed up, I added them to that same workflow. It took me a while to realize that was the problem.
@@ -31,6 +27,8 @@ I opened two terminals. Then three. Then four. Each one running Claude Code on a
 That is when I found [Superset](https://superset.sh/) and [Conductor](https://www.conductor.build/). They do the same thing — run multiple AI coding agents in parallel, each in its own isolated workspace, with everything you need to track progress and review changes.
 
 The only real difference is the interface. [Superset](https://superset.sh/) gives you Claude Code directly in the terminal. [Conductor](https://www.conductor.build/) wraps Claude Code in a visual interface. I tried both, I recommend both. Pick whichever feels more natural to you.
+
+Even Cursor is moving this way. [Cursor 3](https://cursor.com/blog/cursor-3), released at the beginning of the month, shifted from a code editor to a multi-agent workspace. The direction is clear.
 
 ## What actually changed
 
