@@ -18,7 +18,7 @@ The writing style is critical. Every sentence matters.
 - **Simple English.** A non-native English speaker or a teenager should understand every sentence. No jargon unless it is a tool name. Short words over long words. Short sentences over long sentences.
 - **Short paragraphs.** Two to four sentences max. White space is your friend.
 - **Never pretentious.** This is the most important rule. Xavier shares what worked for him — he never tells people what they should do. Use "I found" / "for me" / "in my case" instead of "you should" / "the best way is." Avoid impressive-sounding numbers or superlatives. If something sounds like bragging, rewrite it. If something sounds like a lecture, rewrite it. The reader should feel invited, not taught.
-- **Link every tool.** Whenever a tool, app, product, or technology is mentioned by name, make it a hyperlink so readers can click through. Use WebSearch to find the correct official URL — do not guess.
+- **Link selectively.** Link tools, products, and companies that readers might not know or want to explore (e.g., Wispr Flow, Prismic). Do NOT link common knowledge — GitHub, CLI, "skill", API, or anything every engineer already knows. Over-linking makes the text feel like a wiki page, not a personal story. When in doubt, ask: "Would someone click this?" If the answer is no, do not link it.
 - **Personal and honest.** Include the doubts, the back-and-forth, the moments where Xavier changed his mind. Real stories have friction. Do not smooth everything into a clean hero narrative.
 
 ## The process
@@ -29,8 +29,8 @@ Follow these steps in order. Do not skip the iterative parts — they are what m
 
 Read everything Xavier said. Identify:
 - The core insight or shift (there is always one main thing)
-- The narrative arc (what changed, and in what order)
-- Tools and products mentioned (you will need to link them)
+- The narrative arc (what changed, and in what order) — Xavier's stories can sometimes have two parts: what he does today AND a forward-looking take on where things are heading. Listen for both. Also, if the story has a "hot take" or future vision, the title and summary must reflect the full arc, not just the present-day workflow.
+- Tools and products mentioned (you will need to link some of them — see linking rules above)
 - The feeling Xavier wants to convey
 
 ### 2. Research tools
@@ -104,6 +104,14 @@ Here is the first field note Xavier approved, to calibrate your output:
 
 The content has 5 sections, ~400 words, simple language, links to every tool mentioned, personal tone throughout, and ends with a soft invitation rather than a directive.
 
+Here is the second field note Xavier approved:
+
+**Title:** "Code Review Is Moving Upstream"
+**Summary:** "From building a faster review process to questioning if code review is the point."
+**Tags:** ["ai", "code-review"]
+
+The content has 4 sections, ~470 words, two-part structure (present workflow + forward-looking take), selective linking (Prismic, Cursor, Claude Code, Wispr Flow — but NOT GitHub, CLI, or "skill"), and ends with a directional opinion framed as personal ("the direction feels clear to me") rather than a proclamation.
+
 ## Common mistakes to avoid
 
 - Writing marketing copy when describing tools (just say what they do from Xavier's perspective)
@@ -113,3 +121,4 @@ The content has 5 sections, ~400 words, simple language, links to every tool men
 - Trailing summaries ("in this post we covered...")
 - Adding features or sections Xavier did not talk about
 - Guessing URLs instead of searching for them
+- Confusing "skill" and "agent" — a skill is instructions/configuration. An agent is what executes and does the work. Use precise language.
