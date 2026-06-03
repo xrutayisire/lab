@@ -46,7 +46,7 @@ jobs:
           path: dist/
       - name: Upload preview version
         id: cf-preview
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -61,7 +61,7 @@ jobs:
           echo "Preview URL: $PREVIEW_URL"
 
       - name: Comment preview URL on PR
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           PREVIEW_URL: ${{ steps.extract-url.outputs.preview_url }}
         with:
