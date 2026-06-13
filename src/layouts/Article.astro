@@ -8,11 +8,13 @@ interface Props {
   tags?: string[];
   description?: string;
   repoUrl?: string;
+  installCommand?: string;
   banner?: { text: string; linkText?: string; linkUrl?: string };
 }
 
-const { title, date, tags, description = `${title} — by Xavier Rutayisire`, repoUrl, banner } = Astro.props;
+const { title, date, tags, description = `${title} — by Xavier Rutayisire`, repoUrl, installCommand, banner } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const repoCommand = installCommand ?? (repoUrl ? `git clone ${repoUrl}.git` : undefined);
 
 function formatDate(d: Date): string {
   return d.toISOString().split('T')[0];
@@ -41,7 +43,7 @@ const articleJsonLd = date
 ---
 
 <Base title={`${title} — Xavier Rutayisire`} description={description} publishedDate={date} tags={tags}>
-  {articleJsonLd && <script type="application/ld+json" is:inline set:html={articleJsonLd} />}
+  {articleJsonLd && <script type="application/ld+json" is:inline set:html={articleJsonLd}></script>}
   <article>
     <header class="mb-8">
       <h1 class="font-sans text-page-title max-md:text-2xl font-semibold text-text-primary leading-tight">{title}</h1>
@@ -69,21 +71,51 @@ const articleJsonLd = date
     <div class="prose">
       <slot />
     </div>
-    {repoUrl && (
-      <a
-        href={repoUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group relative mt-12 block bg-bg-secondary border border-border rounded-card p-6 transition-colors duration-150 hover:border-accent overflow-hidden"
+    {repoUrl && repoCommand && (
+      <div
+        class="relative mt-12 bg-bg-secondary border border-border rounded-card p-6 transition-colors duration-150 hover:border-accent overflow-hidden"
+        data-repo-card
       >
         <div class="absolute top-0 left-0 right-0 h-0.5 bg-accent" aria-hidden="true"></div>
-        <p class="font-mono text-sm text-text-secondary">
-          <span class="text-accent">$</span> git clone {repoUrl}.git
-        </p>
-        <p class="mt-3 font-mono text-sm text-accent transition-opacity duration-150 group-hover:underline">
+        <div class="flex items-start gap-3 max-sm:flex-col">
+          <p class="font-mono text-sm text-text-secondary break-words min-w-0 flex-1 select-text" data-command-text>
+            <span class="text-accent">$</span> {repoCommand}
+          </p>
+          <button
+            type="button"
+            class="inline-flex w-20 items-center justify-center gap-1 rounded-sm border border-border px-2 py-1 font-mono text-badge uppercase tracking-wide text-accent transition-colors duration-150 hover:bg-bg-tertiary cursor-pointer"
+            data-copy-command={repoCommand}
+            aria-label={`Copy command: ${repoCommand}`}
+          >
+            <span data-copy-idle>copy</span>
+            <span class="inline-flex items-center gap-1" data-copy-done hidden>
+              <svg
+                aria-hidden="true"
+                class="size-3"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3.5 8.5 6.5 11.5 12.5 4.5"></path>
+              </svg>
+              copied
+            </span>
+          </button>
+        </div>
+        <a
+          href={repoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-3 inline-block font-mono text-sm text-accent transition-opacity duration-150 hover:underline"
+        >
           Explore on GitHub &rarr;
-        </p>
-      </a>
+        </a>
+        <span class="sr-only" aria-live="polite" data-copy-status></span>
+      </div>
     )}
   </article>
+  {repoUrl && repoCommand && <script src="../scripts/repo-command-copy.js"></script>}
 </Base>
