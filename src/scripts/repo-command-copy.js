@@ -29,8 +29,9 @@ async function copyCommand(command) {
   textarea.setSelectionRange(0, command.length);
 
   try {
-    document.execCommand("copy");
-    return true;
+    return document.execCommand("copy");
+  } catch {
+    return false;
   } finally {
     textarea.remove();
   }
