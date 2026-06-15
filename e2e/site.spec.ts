@@ -67,6 +67,30 @@ test.describe('Lab', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('react-js-cron');
     await expect(page.getByRole('link', { name: 'GitHub', exact: true })).toBeVisible();
   });
+
+  test('detail page makes install commands copyable', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+
+    await page.goto('/lab/storytime/');
+    await expect(page.locator('[data-command-text]')).toContainText('npx skills add xrutayisire/storytime --global');
+    const storytimeCopy = page.getByRole('button', {
+      name: 'Copy command: npx skills add xrutayisire/storytime --global',
+    });
+    await storytimeCopy.click();
+    await expect(page.getByRole('button', { name: 'Command copied' })).toBeVisible();
+    await expect.poll(async () => page.evaluate(() => navigator.clipboard.readText())).toBe('npx skills add xrutayisire/storytime --global');
+
+    await page.getByRole('link', { name: 'lab' }).click();
+    await page.getByRole('link', { name: /react-js-cron/ }).click();
+    await expect(page).toHaveURL(/\/lab\/react-js-cron\//);
+    await expect(page.locator('[data-command-text]')).toContainText('git clone https://github.com/xrutayisire/react-js-cron.git');
+    const defaultCopy = page.getByRole('button', {
+      name: 'Copy command: git clone https://github.com/xrutayisire/react-js-cron.git',
+    });
+    await defaultCopy.click();
+    await expect(page.getByRole('button', { name: 'Command copied' })).toBeVisible();
+    await expect.poll(async () => page.evaluate(() => navigator.clipboard.readText())).toBe('git clone https://github.com/xrutayisire/react-js-cron.git');
+  });
 });
 
 test.describe('Field Notes', () => {

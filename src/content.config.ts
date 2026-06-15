@@ -27,6 +27,7 @@ const lab = defineCollection({
     summary: z.string(),
     tags: z.array(z.string()),
     github: z.string().url(),
+    installCommand: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });
